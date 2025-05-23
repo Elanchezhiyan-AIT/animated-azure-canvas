@@ -1,11 +1,11 @@
 
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { GitHub, Linkedin, Twitter, Facebook, FileText } from "lucide-react";
+import { Github, Linkedin, Twitter, Facebook, FileText } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const socialLinks = [
-  { name: "GitHub", icon: GitHub, url: "https://github.com" },
+  { name: "GitHub", icon: Github, url: "https://github.com" },
   { name: "LinkedIn", icon: Linkedin, url: "https://linkedin.com" },
   { name: "Twitter", icon: Twitter, url: "https://twitter.com" },
   { name: "Facebook", icon: Facebook, url: "https://facebook.com" },
