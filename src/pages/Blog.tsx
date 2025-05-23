@@ -105,7 +105,7 @@ const Blog = () => {
         </motion.div>
         
         <motion.div 
-          className="space-y-8 max-w-4xl mx-auto"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"
           variants={{
             hidden: { opacity: 0 },
             show: {
@@ -125,9 +125,13 @@ const Blog = () => {
                 hidden: { opacity: 0, y: 20 },
                 show: { opacity: 1, y: 0 }
               }}
-              className={`bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 ${
-                post.featured ? "border-l-4 border-blue-500" : ""
-              }`}
+              className={`bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 group 
+                ${post.featured ? "border-l-4 border-blue-500" : ""}
+                hover:border-l-4 hover:border-blue-500 border-transparent`}
+              whileHover={{
+                scale: 1.02,
+                boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+              }}
             >
               {post.featured && (
                 <Badge className="mb-3" variant="default">
@@ -135,7 +139,7 @@ const Blog = () => {
                 </Badge>
               )}
               
-              <h2 className="text-2xl font-bold mb-3 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+              <h2 className="text-xl font-bold mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                 <a href="#">{post.title}</a>
               </h2>
               
@@ -153,13 +157,13 @@ const Blog = () => {
                 </span>
               </div>
               
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
+              <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3">
                 {post.excerpt}
               </p>
               
               <div className="flex flex-wrap gap-2 mb-4">
                 {post.tags.map((tag, index) => (
-                  <Badge key={index} variant="outline" className="bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800">
+                  <Badge key={index} variant="outline" className="bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/40 transition-colors">
                     {tag}
                   </Badge>
                 ))}
@@ -182,7 +186,7 @@ const Blog = () => {
           ))}
           
           {filteredPosts.length === 0 && (
-            <div className="text-center p-10">
+            <div className="text-center p-10 col-span-full">
               <p className="text-gray-600 dark:text-gray-400 text-lg">
                 No blog posts found matching your search.
               </p>

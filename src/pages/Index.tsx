@@ -10,6 +10,7 @@ import BlogPosts from "../components/BlogPosts";
 import Loader from "../components/Loader";
 import ChatbotWidget from "../components/ChatbotWidget";
 import Testimonials from "../components/Testimonials";
+import ProfileImage from "../components/ProfileImage";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -38,8 +39,17 @@ const Index = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center max-w-3xl mx-auto"
+            className="text-center max-w-3xl mx-auto flex flex-col items-center"
           >
+            <div className="mb-8">
+              <ProfileImage 
+                src="/lovable-uploads/e0bfa469-4fc1-4fca-ab3a-a3fd6aef3458.png" 
+                alt="Developer Profile" 
+                fallback="JS"
+                size="xl"
+              />
+            </div>
+            
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
               .NET Full Stack Developer
             </h1>

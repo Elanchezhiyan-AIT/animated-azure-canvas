@@ -62,8 +62,8 @@ const BlogPosts = () => {
     >
       {blogPosts.map((post) => (
         <motion.div key={post.id} variants={itemVariants}>
-          <Card className="h-full flex flex-col overflow-hidden hover:shadow-lg transition-shadow duration-300">
-            <div className="overflow-hidden h-48">
+          <Card className="h-full flex flex-col overflow-hidden hover:shadow-lg transition-shadow duration-300 group hover:border-l-4 hover:border-blue-500">
+            <div className="overflow-hidden h-48 relative">
               <motion.img 
                 src={post.image} 
                 alt={post.title} 
@@ -71,16 +71,30 @@ const BlogPosts = () => {
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.5 }}
               />
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 flex items-end p-4"
+                initial={{ opacity: 0 }}
+                whileHover={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                <motion.span
+                  className="text-white font-medium"
+                  initial={{ y: 10, opacity: 0 }}
+                  whileHover={{ y: 0, opacity: 1 }}
+                >
+                  Read article
+                </motion.span>
+              </motion.div>
             </div>
             <CardHeader className="pb-2">
               <div className="flex justify-between items-center text-sm text-gray-500 dark:text-gray-400 mb-1">
                 <span>{post.date}</span>
                 <span>{post.readTime}</span>
               </div>
-              <CardTitle>{post.title}</CardTitle>
+              <CardTitle className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{post.title}</CardTitle>
             </CardHeader>
             <CardContent className="pb-2 flex-grow">
-              <CardDescription className="text-gray-600 dark:text-gray-400">
+              <CardDescription className="text-gray-600 dark:text-gray-400 group-hover:text-gray-800 dark:group-hover:text-gray-200 transition-colors">
                 {post.excerpt}
               </CardDescription>
             </CardContent>

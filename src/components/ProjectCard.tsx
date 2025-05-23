@@ -30,7 +30,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         transition: { duration: 0.3 }
       }}
     >
-      <Card className="h-full flex flex-col overflow-hidden hover:shadow-xl transition-all duration-300 border-transparent hover:border-blue-400">
+      <Card className="h-full flex flex-col overflow-hidden hover:shadow-xl transition-all duration-300 border-l-0 group hover:border-l-4 hover:border-blue-500">
         <div className="relative overflow-hidden h-48">
           <motion.img 
             src={project.image} 
@@ -60,13 +60,13 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         </div>
         
         <CardHeader className="pb-2">
-          <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
+          <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 group-hover:from-blue-700 group-hover:to-purple-700 transition-all duration-300">
             {project.title}
           </h3>
         </CardHeader>
         
         <CardContent className="pb-3 flex-grow">
-          <p className="text-gray-600 dark:text-gray-400 text-sm">
+          <p className="text-gray-600 dark:text-gray-400 text-sm group-hover:text-gray-800 dark:group-hover:text-gray-200 transition-colors">
             {project.description}
           </p>
           
@@ -79,7 +79,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
               >
                 <Badge
                   variant="outline"
-                  className="bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800"
+                  className="bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800 group-hover:bg-blue-100 dark:group-hover:bg-blue-800/40 transition-all duration-300"
                 >
                   {tech}
                 </Badge>

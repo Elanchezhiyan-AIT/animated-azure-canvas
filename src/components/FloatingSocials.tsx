@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Github, Linkedin, Twitter, Facebook, FileText, ChevronRight, ChevronLeft } from "lucide-react";
+import { Github, Linkedin, Twitter, Facebook, FileText, ChevronUp, ChevronDown } from "lucide-react";
 
 const socialLinks = [
   { name: "GitHub", icon: Github, url: "https://github.com" },
@@ -13,16 +13,16 @@ const socialLinks = [
 
 const FloatingSocials = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const [position, setPosition] = useState<"left" | "right">("left");
+  const [position, setPosition] = useState<"top" | "bottom">("bottom");
 
   return (
     <motion.div
-      className={`fixed ${position === "left" ? "left-0" : "right-0"} top-1/2 -translate-y-1/2 z-30`}
-      animate={{ x: isOpen ? 0 : position === "left" ? "-90%" : "90%" }}
+      className={`fixed ${position === "top" ? "top-24" : "bottom-24"} right-6 z-30`}
+      animate={{ y: isOpen ? 0 : position === "top" ? "-90%" : "90%" }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
-      <div className={`flex ${position === "left" ? "flex-row" : "flex-row-reverse"}`}>
-        <div className={`flex flex-col space-y-4 bg-white dark:bg-gray-800 shadow-lg rounded-r-lg py-4 px-3 ${position === "left" ? "" : "rounded-r-none rounded-l-lg"}`}>
+      <div className={`flex ${position === "top" ? "flex-col" : "flex-col-reverse"}`}>
+        <div className={`flex flex-row space-x-4 bg-white dark:bg-gray-800 shadow-lg rounded-lg py-3 px-4 ${position === "top" ? "mb-2 rounded-b-lg" : "mt-2 rounded-t-lg"}`}>
           {socialLinks.map((link) => (
             <motion.a
               key={link.name}
@@ -42,13 +42,13 @@ const FloatingSocials = () => {
         {/* Toggle Button */}
         <motion.button
           onClick={() => setIsOpen(!isOpen)}
-          className={`self-center ${position === "right" ? "rounded-l-md -mr-1" : "rounded-r-md -ml-1"} bg-white dark:bg-gray-800 p-1 shadow-md`}
+          className={`self-center ${position === "top" ? "mb-1" : "mt-1"} rounded-md bg-white dark:bg-gray-800 p-1 shadow-md`}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
         >
           {isOpen ? 
-            (position === "left" ? <ChevronLeft className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />) : 
-            (position === "left" ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />)
+            (position === "top" ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />) : 
+            (position === "top" ? <ChevronDown className="h-4 w-4" /> : <ChevronUp className="h-4 w-4" />)
           }
         </motion.button>
         
@@ -56,16 +56,16 @@ const FloatingSocials = () => {
         <AnimatePresence>
           {isOpen && (
             <motion.button
-              onClick={() => setPosition(position === "left" ? "right" : "left")}
-              className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 bg-white dark:bg-gray-800 rounded-full p-1 shadow-md"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
+              onClick={() => setPosition(position === "top" ? "bottom" : "top")}
+              className="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 bg-white dark:bg-gray-800 rounded-full p-1 shadow-md"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -10 }}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
               <span className="text-xs text-gray-600 dark:text-gray-300">
-                {position === "left" ? "→" : "←"}
+                {position === "top" ? "↓" : "↑"}
               </span>
             </motion.button>
           )}
