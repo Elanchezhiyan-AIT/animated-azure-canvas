@@ -11,6 +11,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Projects from "./pages/Projects";
 import Blog from "./pages/Blog";
+import FloatingSocials from "./components/FloatingSocials";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <FloatingSocials />
         <AnimatePresence mode="wait">
           <Routes>
             <Route path="/" element={<Index />} />

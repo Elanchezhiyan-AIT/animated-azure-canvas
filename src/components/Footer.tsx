@@ -63,6 +63,7 @@ const Footer = () => {
             © {new Date().getFullYear()} Dev.Portfolio. All rights reserved.
           </p>
           
+          {/* Social links shown only on desktop */}
           {!isMobile && (
             <div className="flex space-x-4">
               {socialLinks.map((link) => (
@@ -83,33 +84,6 @@ const Footer = () => {
           )}
         </div>
       </div>
-      
-      {/* Mobile Social Bar */}
-      {isMobile && (
-        <motion.div 
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="fixed left-0 right-0 bottom-4 z-20 flex justify-center"
-        >
-          <div className="flex space-x-6 bg-white dark:bg-gray-800 shadow-lg rounded-full px-6 py-3">
-            {socialLinks.map((link) => (
-              <motion.a
-                key={link.name}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400"
-                whileHover={{ scale: 1.2 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <link.icon className="h-5 w-5" />
-                <span className="sr-only">{link.name}</span>
-              </motion.a>
-            ))}
-          </div>
-        </motion.div>
-      )}
     </footer>
   );
 };
