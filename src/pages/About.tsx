@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ChatbotWidget from "../components/ChatbotWidget";
+import ProfileImage from "../components/ProfileImage";
 
 const About = () => {
   const [activeTab, setActiveTab] = useState("experience");
@@ -75,25 +76,55 @@ const About = () => {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       <Navbar />
       
-      <main className="container mx-auto px-4 py-8 pt-20">
-        {/* Hero Section */}
-        <section className="py-16">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-3xl mx-auto text-center"
-          >
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">About Me</h1>
-            <p className="text-xl text-gray-700 dark:text-gray-300 mb-8">
-              A passionate .NET Full Stack Developer with over 6 years of experience, 
-              specializing in Azure-based solutions, and proficient with both ReactJS and NestJS.
-            </p>
-          </motion.div>
+      <main className="w-full px-4 py-8 pt-20">
+        {/* Hero Section with Profile Image */}
+        <section className="py-10 max-w-6xl mx-auto">
+          <div className="flex flex-col md:flex-row items-center gap-10">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="relative"
+            >
+              <ProfileImage 
+                src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=300&h=300&fit=crop"
+                alt="Developer Profile"
+                fallback="JS" 
+                size="xl"
+              />
+            </motion.div>
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <h1 className="text-4xl md:text-5xl font-bold mb-4">About Me</h1>
+              <p className="text-xl text-gray-700 dark:text-gray-300 mb-6">
+                A passionate .NET Full Stack Developer with over 6 years of experience, 
+                specializing in Azure-based solutions, and proficient with both ReactJS and NestJS.
+              </p>
+              <div className="flex gap-4">
+                <motion.button 
+                  className="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-medium"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Download CV
+                </motion.button>
+                <motion.button 
+                  className="px-6 py-2 border border-blue-600 dark:border-blue-400 text-blue-600 dark:text-blue-400 rounded-lg font-medium"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Contact Me
+                </motion.button>
+              </div>
+            </motion.div>
+          </div>
         </section>
         
         {/* Tabs */}
-        <section className="max-w-4xl mx-auto mb-12">
+        <section className="max-w-6xl mx-auto mb-12">
           <div className="flex justify-center mb-8">
             <motion.div className="inline-flex p-1 bg-gray-200 dark:bg-gray-700 rounded-lg">
               {["experience", "skills", "education"].map((tab) => (

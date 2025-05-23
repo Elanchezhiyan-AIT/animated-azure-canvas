@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Github, Linkedin, Twitter, Facebook, FileText, ChevronRight, ChevronLeft } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 const socialLinks = [
   { name: "GitHub", icon: Github, url: "https://github.com" },
@@ -13,11 +12,8 @@ const socialLinks = [
 ];
 
 const FloatingSocials = () => {
-  const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(true);
   const [position, setPosition] = useState<"left" | "right">("left");
-
-  if (!isMobile) return null;
 
   return (
     <motion.div
