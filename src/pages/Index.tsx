@@ -1,12 +1,90 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import FeaturedProject from "../components/FeaturedProject";
+import BlogPosts from "../components/BlogPosts";
+import Loader from "../components/Loader";
+import ChatbotWidget from "../components/ChatbotWidget";
 
 const Index = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading time
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+    
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+      <Navbar />
+      
+      <main className="container mx-auto px-4 py-8">
+        {/* Hero Section */}
+        <section className="py-16 md:py-24">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-3xl mx-auto"
+          >
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
+              .NET Full Stack Developer
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 mb-8">
+              Building robust Azure-based solutions with ReactJS and NestJS
+            </p>
+            <motion.div 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Link 
+                to="/about" 
+                className="inline-flex items-center px-6 py-3 text-lg font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
+              >
+                Learn More About Me
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </motion.div>
+          </motion.div>
+        </section>
+
+        {/* Featured Project Section */}
+        <motion.section 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+          className="py-16"
+        >
+          <h2 className="text-3xl font-bold mb-10 text-center">Featured Project</h2>
+          <FeaturedProject />
+        </motion.section>
+
+        {/* Blog Posts Section */}
+        <motion.section 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6, duration: 0.6 }}
+          className="py-16"
+        >
+          <h2 className="text-3xl font-bold mb-10 text-center">Recent Blog Posts</h2>
+          <BlogPosts />
+        </motion.section>
+      </main>
+      
+      <Footer />
+      <ChatbotWidget />
     </div>
   );
 };
