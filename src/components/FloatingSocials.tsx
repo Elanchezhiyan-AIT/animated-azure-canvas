@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Github, Linkedin, Twitter, Facebook, FileText, ChevronUp, ChevronDown } from "lucide-react";
+import { Github, Linkedin, Twitter, Facebook, FileText, ChevronLeft, ChevronRight } from "lucide-react";
 
 const socialLinks = [
   { name: "GitHub", icon: Github, url: "https://github.com" },
@@ -13,42 +13,61 @@ const socialLinks = [
 
 const FloatingSocials = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const [position, setPosition] = useState<"top" | "bottom">("bottom");
+  const [position, setPosition] = useState<"left" | "right">("right");
 
   return (
     <motion.div
-      className={`fixed ${position === "top" ? "top-24" : "bottom-24"} right-6 z-30`}
-      animate={{ y: isOpen ? 0 : position === "top" ? "-90%" : "90%" }}
+      className={`fixed ${position === "left" ? "left-6" : "right-6"} top-1/2 transform -translate-y-1/2 z-30`}
+      animate={{ x: isOpen ? 0 : position === "left" ? "-90%" : "90%" }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      whileHover={{ scale: 1.05 }}
     >
-      <div className={`flex ${position === "top" ? "flex-col" : "flex-col-reverse"}`}>
-        <div className={`flex flex-row space-x-4 bg-white dark:bg-gray-800 shadow-lg rounded-lg py-3 px-4 ${position === "top" ? "mb-2 rounded-b-lg" : "mt-2 rounded-t-lg"}`}>
-          {socialLinks.map((link) => (
+      <div className={`flex ${position === "left" ? "flex-row" : "flex-row-reverse"} items-center`}>
+        <motion.div 
+          className={`flex flex-col space-y-3 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md shadow-xl rounded-2xl py-4 px-3 border border-gray-200 dark:border-gray-700 ${position === "left" ? "mr-2 rounded-l-2xl" : "ml-2 rounded-r-2xl"}`}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, staggerChildren: 0.1 }}
+        >
+          {socialLinks.map((link, index) => (
             <motion.a
               key={link.name}
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 p-2"
-              whileHover={{ scale: 1.2, rotate: 5 }}
+              className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 p-3 rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-all duration-300 group"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              whileHover={{ 
+                scale: 1.3, 
+                rotate: [0, -10, 10, 0],
+                transition: { duration: 0.3 }
+              }}
               whileTap={{ scale: 0.9 }}
             >
-              <link.icon className="h-5 w-5" />
+              <motion.div
+                whileHover={{ rotate: 360 }}
+                transition={{ duration: 0.6 }}
+              >
+                <link.icon className="h-5 w-5" />
+              </motion.div>
               <span className="sr-only">{link.name}</span>
             </motion.a>
           ))}
-        </div>
+        </motion.div>
         
         {/* Toggle Button */}
         <motion.button
           onClick={() => setIsOpen(!isOpen)}
-          className={`self-center ${position === "top" ? "mb-1" : "mt-1"} rounded-md bg-white dark:bg-gray-800 p-1 shadow-md`}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
+          className={`${position === "left" ? "mr-1" : "ml-1"} rounded-full bg-white/90 dark:bg-gray-800/90 backdrop-blur-md p-2 shadow-lg border border-gray-200 dark:border-gray-700`}
+          whileHover={{ scale: 1.2, rotate: 180 }}
+          whileTap={{ scale: 0.8 }}
+          transition={{ type: "spring", stiffness: 400, damping: 10 }}
         >
           {isOpen ? 
-            (position === "top" ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />) : 
-            (position === "top" ? <ChevronDown className="h-4 w-4" /> : <ChevronUp className="h-4 w-4" />)
+            (position === "left" ? <ChevronLeft className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />) : 
+            (position === "left" ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />)
           }
         </motion.button>
         
@@ -56,17 +75,21 @@ const FloatingSocials = () => {
         <AnimatePresence>
           {isOpen && (
             <motion.button
-              onClick={() => setPosition(position === "top" ? "bottom" : "top")}
-              className="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 bg-white dark:bg-gray-800 rounded-full p-1 shadow-md"
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -10 }}
-              whileHover={{ scale: 1.1 }}
+              onClick={() => setPosition(position === "left" ? "right" : "left")}
+              className={`absolute ${position === "left" ? "right-full mr-2" : "left-full ml-2"} top-1/2 transform -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-full p-2 shadow-lg border border-gray-200 dark:border-gray-700`}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0 }}
+              whileHover={{ scale: 1.2, rotate: 180 }}
               whileTap={{ scale: 0.9 }}
+              transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
-              <span className="text-xs text-gray-600 dark:text-gray-300">
-                {position === "top" ? "↓" : "↑"}
-              </span>
+              <motion.span 
+                className="text-xs text-gray-600 dark:text-gray-300 font-bold"
+                whileHover={{ scale: 1.2 }}
+              >
+                {position === "left" ? "→" : "←"}
+              </motion.span>
             </motion.button>
           )}
         </AnimatePresence>

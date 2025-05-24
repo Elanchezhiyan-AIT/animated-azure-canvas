@@ -12,10 +12,10 @@ import Contact from "./pages/Contact";
 import Projects from "./pages/Projects";
 import Blog from "./pages/Blog";
 import FloatingSocials from "./components/FloatingSocials";
+import ThemeToggle from "./components/ThemeToggle";
 import { useState } from "react";
 
 const App = () => {
-  // Create a client inside the component to prevent React hooks issues
   const [queryClient] = useState(() => new QueryClient());
 
   return (
@@ -24,6 +24,7 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ThemeToggle />
           <FloatingSocials />
           <AnimatePresence mode="wait">
             <Routes>
@@ -32,7 +33,6 @@ const App = () => {
               <Route path="/contact" element={<Contact />} />
               <Route path="/projects" element={<Projects />} />
               <Route path="/blog" element={<Blog />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </AnimatePresence>
