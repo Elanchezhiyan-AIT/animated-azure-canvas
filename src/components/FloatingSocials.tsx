@@ -116,7 +116,6 @@ const FloatingSocials = () => {
           ))}
         </motion.div>
         
-        {/* Toggle Button */}
         <motion.button
           onClick={() => setIsOpen(!isOpen)}
           className={`${position === "left" ? "mr-1" : "ml-1"} rounded-full bg-white/90 dark:bg-gray-800/90 backdrop-blur-md p-2 shadow-lg border border-gray-200 dark:border-gray-700`}
@@ -130,7 +129,6 @@ const FloatingSocials = () => {
           }
         </motion.button>
         
-        {/* Position Toggle */}
         <AnimatePresence>
           {isOpen && (
             <motion.button
@@ -143,10 +141,7 @@ const FloatingSocials = () => {
               whileTap={{ scale: 0.9 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
-              <motion.span 
-                className="text-xs text-gray-600 dark:text-gray-300 font-bold"
-                whileHover={{ scale: 1.2 }}
-              >
+              <span className="text-xs text-gray-600 dark:text-gray-300 font-bold">
                 {position === "left" ? "→" : "←"}
               </span>
             </motion.button>
