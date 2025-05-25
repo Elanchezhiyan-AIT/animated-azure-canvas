@@ -12,7 +12,6 @@ import Contact from "./pages/Contact";
 import Projects from "./pages/Projects";
 import Blog from "./pages/Blog";
 import FloatingSocials from "./components/FloatingSocials";
-import ThemeToggle from "./components/ThemeToggle";
 import { useState } from "react";
 
 const App = () => {
@@ -24,7 +23,6 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <ThemeToggle />
           <FloatingSocials />
           <AnimatePresence mode="wait">
             <Routes>

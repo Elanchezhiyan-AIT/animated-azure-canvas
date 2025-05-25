@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Github, Linkedin, Twitter, Facebook, FileText, ChevronLeft, ChevronRight } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const socialLinks = [
   { name: "GitHub", icon: Github, url: "https://github.com" },
@@ -14,6 +15,64 @@ const socialLinks = [
 const FloatingSocials = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [position, setPosition] = useState<"left" | "right">("right");
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return (
+      <motion.div
+        className="fixed bottom-0 left-0 right-0 z-30 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-200 dark:border-gray-700"
+        initial={{ y: 100 }}
+        animate={{ y: isOpen ? 0 : 60 }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      >
+        <div className="flex justify-center items-center py-2">
+          <motion.button
+            onClick={() => setIsOpen(!isOpen)}
+            className="absolute top-[-15px] bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-full p-2 shadow-lg border border-gray-200 dark:border-gray-700"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <motion.div
+              animate={{ rotate: isOpen ? 180 : 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <ChevronRight className="h-4 w-4 rotate-90" />
+            </motion.div>
+          </motion.button>
+          
+          <AnimatePresence>
+            {isOpen && (
+              <motion.div
+                className="flex space-x-6 px-4 py-2"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ staggerChildren: 0.1 }}
+              >
+                {socialLinks.map((link, index) => (
+                  <motion.a
+                    key={link.name}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 p-2 rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-all duration-300"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    whileHover={{ scale: 1.2, y: -5 }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <link.icon className="h-5 w-5" />
+                    <span className="sr-only">{link.name}</span>
+                  </motion.a>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </motion.div>
+    );
+  }
 
   return (
     <motion.div
@@ -89,7 +148,7 @@ const FloatingSocials = () => {
                 whileHover={{ scale: 1.2 }}
               >
                 {position === "left" ? "→" : "←"}
-              </motion.span>
+              </span>
             </motion.button>
           )}
         </AnimatePresence>

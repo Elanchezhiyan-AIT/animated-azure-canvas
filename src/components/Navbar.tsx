@@ -1,10 +1,11 @@
 
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { motion } from "framer-motion";
 import { Menu } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import ThemeToggle from "./ThemeToggle";
 
 const navItems = [
   { name: "Home", path: "/" },
@@ -17,6 +18,7 @@ const navItems = [
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -27,6 +29,14 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleNavClick = (path: string) => {
+    navigate(path);
+    // Scroll to top after navigation
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
+  };
 
   return (
     <header
@@ -40,57 +50,63 @@ const Navbar = () => {
         </Link>
 
         {isMobile ? (
-          <Sheet>
-            <SheetTrigger asChild>
-              <button className="p-2 focus:outline-none">
-                <Menu className="h-6 w-6" />
-              </button>
-            </SheetTrigger>
-            <SheetContent side="left">
-              <div className="flex flex-col gap-6 mt-10">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.name}
-                    to={item.path}
-                    className={`text-lg font-medium px-4 py-2 rounded-md transition-colors ${
-                      location.pathname === item.path
-                        ? "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
-                        : "hover:bg-gray-100 dark:hover:bg-gray-800"
-                    }`}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
-              </div>
-            </SheetContent>
-          </Sheet>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <Sheet>
+              <SheetTrigger asChild>
+                <button className="p-2 focus:outline-none">
+                  <Menu className="h-6 w-6" />
+                </button>
+              </SheetTrigger>
+              <SheetContent side="left">
+                <div className="flex flex-col gap-6 mt-10">
+                  {navItems.map((item) => (
+                    <button
+                      key={item.name}
+                      onClick={() => handleNavClick(item.path)}
+                      className={`text-lg font-medium px-4 py-2 rounded-md transition-colors text-left ${
+                        location.pathname === item.path
+                          ? "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+                          : "hover:bg-gray-100 dark:hover:bg-gray-800"
+                      }`}
+                    >
+                      {item.name}
+                    </button>
+                  ))}
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
         ) : (
-          <nav className="flex space-x-1">
-            {navItems.map((item) => (
-              <Link
-                key={item.name}
-                to={item.path}
-                className={`relative px-4 py-2 rounded-md font-medium transition-colors`}
-              >
-                {location.pathname === item.path && (
-                  <motion.div
-                    layoutId="activeNavIndicator"
-                    className="absolute inset-0 bg-blue-100 dark:bg-blue-900/30 rounded-md z-0"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                )}
-                <span className={`relative z-10 ${
-                  location.pathname === item.path
-                    ? "text-blue-700 dark:text-blue-400"
-                    : "text-gray-700 dark:text-gray-300"
-                }`}>
-                  {item.name}
-                </span>
-              </Link>
-            ))}
-          </nav>
+          <div className="flex items-center gap-4">
+            <nav className="flex space-x-1">
+              {navItems.map((item) => (
+                <button
+                  key={item.name}
+                  onClick={() => handleNavClick(item.path)}
+                  className={`relative px-4 py-2 rounded-md font-medium transition-colors`}
+                >
+                  {location.pathname === item.path && (
+                    <motion.div
+                      layoutId="activeNavIndicator"
+                      className="absolute inset-0 bg-blue-100 dark:bg-blue-900/30 rounded-md z-0"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  )}
+                  <span className={`relative z-10 ${
+                    location.pathname === item.path
+                      ? "text-blue-700 dark:text-blue-400"
+                      : "text-gray-700 dark:text-gray-300"
+                  }`}>
+                    {item.name}
+                  </span>
+                </button>
+              ))}
+            </nav>
+            <ThemeToggle />
+          </div>
         )}
       </div>
     </header>

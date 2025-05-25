@@ -28,24 +28,24 @@ const About = () => {
     {
       role: "Senior Full Stack Developer",
       company: "Enterprise Solutions Inc.",
-      period: "2020 - Present",
-      description: "Led development of Azure-based enterprise applications, architected scalable solutions, and mentored junior developers.",
+      period: "2021 - Present",
+      description: "Led development of Azure-based enterprise applications, architected scalable solutions, and mentored junior developers. Continuously explore and implement emerging technologies to enhance project outcomes.",
       technologies: ["Azure", ".NET Core", "ReactJS", "SQL Server"],
       icon: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=50&h=50&fit=crop"
     },
     {
       role: "Full Stack Developer",
       company: "Tech Innovations Ltd.",
-      period: "2018 - 2020",
-      description: "Developed and maintained web applications using .NET Core and React, implemented CI/CD pipelines, and optimized database performance.",
+      period: "2019 - 2021",
+      description: "Developed and maintained web applications using .NET Core and React, implemented CI/CD pipelines, and optimized database performance. Actively researched and adopted new frameworks and tools.",
       technologies: [".NET Core", "React", "Azure DevOps"],
       icon: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=50&h=50&fit=crop"
     },
     {
       role: "Software Developer",
       company: "Digital Solutions",
-      period: "2016 - 2018",
-      description: "Built and maintained web applications, collaborated with design and product teams, and participated in code reviews.",
+      period: "2018 - 2019",
+      description: "Built and maintained web applications, collaborated with design and product teams, and participated in code reviews. Focused on learning and implementing modern development practices.",
       technologies: ["C#", "ASP.NET MVC", "jQuery", "SQL Server"],
       icon: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=50&h=50&fit=crop"
     }
@@ -99,9 +99,15 @@ const About = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <h1 className="text-4xl md:text-5xl font-bold mb-4">About Me</h1>
-              <p className="text-xl text-gray-700 dark:text-gray-300 mb-6">
-                A passionate .NET Full Stack Developer with over 6 years of experience, 
+              <p className="text-xl text-gray-700 dark:text-gray-300 mb-4">
+                A passionate .NET Full Stack Developer with 6+ years of experience, 
                 specializing in Azure-based solutions, and proficient with both ReactJS and NestJS.
+              </p>
+              <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
+                I have a strong passion for continuous learning and technology adoption. I actively familiarize 
+                myself with emerging technologies and frameworks, incorporating them into new projects to deliver 
+                innovative and efficient solutions. My approach combines proven methodologies with cutting-edge 
+                tools to create robust, scalable applications.
               </p>
               <div className="flex gap-4">
                 <motion.button 

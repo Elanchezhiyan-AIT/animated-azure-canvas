@@ -39,7 +39,7 @@ const Index = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center max-w-3xl mx-auto flex flex-col items-center"
+            className="text-center max-w-4xl mx-auto flex flex-col items-center"
           >
             <div className="mb-8">
               <ProfileImage 
@@ -53,8 +53,13 @@ const Index = () => {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
               .NET Full Stack Developer
             </h1>
-            <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 mb-8">
-              Building robust Azure-based solutions with ReactJS and NestJS
+            <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 mb-4">
+              6+ years of experience building robust Azure-based solutions with ReactJS and NestJS
+            </p>
+            <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-3xl">
+              Passionate about exploring and implementing cutting-edge technologies in enterprise projects. 
+              I continuously familiarize myself with emerging tools and frameworks to deliver innovative solutions 
+              that drive business growth and enhance user experiences.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <motion.div 
@@ -94,7 +99,7 @@ const Index = () => {
         >
           <h2 className="text-3xl font-bold mb-4 text-center">Featured Project</h2>
           <p className="text-center text-gray-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto">
-            Check out my latest enterprise-grade Azure cloud solution
+            Check out my latest enterprise-grade Azure cloud solution showcasing modern development practices
           </p>
           <FeaturedProject />
           <div className="flex justify-center mt-8">
@@ -122,7 +127,7 @@ const Index = () => {
         >
           <h2 className="text-3xl font-bold mb-4 text-center">Recent Blog Posts</h2>
           <p className="text-center text-gray-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto">
-            Thoughts and insights on .NET, Azure, and software development
+            Insights on .NET, Azure, modern web development, and emerging technologies
           </p>
           <BlogPosts />
           <div className="flex justify-center mt-8">
