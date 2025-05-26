@@ -270,7 +270,17 @@ const Index = () => {
                   show: { opacity: 1, y: 0 }
                 }}
               >
-                <BlogPostCard post={post} />
+                <BlogPostCard 
+                  id={post.id}
+                  title={post.title}
+                  excerpt={post.excerpt}
+                  publishedAt={post.publishedAt}
+                  categories={post.categories}
+                  image={post.image}
+                  link={post.link}
+                  source={post.source}
+                  featured={index === 0}
+                />
               </motion.div>
             ))}
           </motion.div>
