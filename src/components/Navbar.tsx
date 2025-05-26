@@ -3,14 +3,16 @@ import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { motion } from "framer-motion";
-import { Menu } from "lucide-react";
+import { Menu, LogOut } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useAuth } from "../contexts/AuthContext";
 import ThemeToggle from "./ThemeToggle";
 
 const navItems = [
   { name: "Home", path: "/" },
   { name: "About", path: "/about" },
   { name: "Projects", path: "/projects" },
+  { name: "Certifications", path: "/certifications" },
   { name: "Blog", path: "/blog" },
   { name: "Contact", path: "/contact" },
 ];
@@ -20,6 +22,7 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const isMobile = useIsMobile();
+  const { isAuthenticated, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,6 +41,11 @@ const Navbar = () => {
     }, 100);
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-30 transition-all duration-300 ${
@@ -52,6 +60,14 @@ const Navbar = () => {
         {isMobile ? (
           <div className="flex items-center gap-2">
             <ThemeToggle />
+            {isAuthenticated && (
+              <button
+                onClick={handleLogout}
+                className="p-2 text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
+              >
+                <LogOut className="h-5 w-5" />
+              </button>
+            )}
             <Sheet>
               <SheetTrigger asChild>
                 <button className="p-2 focus:outline-none">
@@ -73,6 +89,14 @@ const Navbar = () => {
                       {item.name}
                     </button>
                   ))}
+                  {isAuthenticated && (
+                    <button
+                      onClick={() => handleNavClick("/admin/projects")}
+                      className="text-lg font-medium px-4 py-2 rounded-md transition-colors text-left hover:bg-gray-100 dark:hover:bg-gray-800"
+                    >
+                      Admin Panel
+                    </button>
+                  )}
                 </div>
               </SheetContent>
             </Sheet>
@@ -104,8 +128,27 @@ const Navbar = () => {
                   </span>
                 </button>
               ))}
+              {isAuthenticated && (
+                <button
+                  onClick={() => handleNavClick("/admin/projects")}
+                  className="relative px-4 py-2 rounded-md font-medium transition-colors text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                >
+                  Admin
+                </button>
+              )}
             </nav>
-            <ThemeToggle />
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              {isAuthenticated && (
+                <button
+                  onClick={handleLogout}
+                  className="p-2 text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
+                  title="Logout"
+                >
+                  <LogOut className="h-5 w-5" />
+                </button>
+              )}
+            </div>
           </div>
         )}
       </div>

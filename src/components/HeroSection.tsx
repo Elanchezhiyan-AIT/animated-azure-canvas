@@ -1,10 +1,28 @@
 
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Code2, Cloud, Database } from "lucide-react";
 import { Link } from "react-router-dom";
 import ProfileImage from "./ProfileImage";
 
 const HeroSection = () => {
+  const highlights = [
+    {
+      icon: Code2,
+      title: "Full Stack Development",
+      description: "Expert in .NET Core, React, and modern web technologies"
+    },
+    {
+      icon: Cloud,
+      title: "Azure Cloud Solutions",
+      description: "Certified Azure developer with enterprise-grade solutions"
+    },
+    {
+      icon: Database,
+      title: "Scalable Architecture",
+      description: "Designing robust, maintainable, and performant applications"
+    }
+  ];
+
   return (
     <motion.section 
       className="py-16 md:py-24"
@@ -47,7 +65,7 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
         >
-          6+ years of experience building robust Azure-based solutions with ReactJS and NestJS
+          Transforming ideas into scalable enterprise solutions with 6+ years of expertise
         </motion.p>
         
         <motion.p 
@@ -58,14 +76,36 @@ const HeroSection = () => {
         >
           Passionate about exploring and implementing cutting-edge technologies in enterprise projects. 
           I continuously familiarize myself with emerging tools and frameworks to deliver innovative solutions 
-          that drive business growth and enhance user experiences.
+          that drive business growth and enhance user experiences. From Azure cloud architectures to modern 
+          React applications, I bridge the gap between complex business requirements and elegant technical solutions.
         </motion.p>
+        
+        {/* Highlights Section */}
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 w-full max-w-4xl"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 1.2 }}
+        >
+          {highlights.map((highlight, index) => (
+            <motion.div
+              key={index}
+              className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-100 dark:border-gray-700"
+              whileHover={{ scale: 1.02, y: -2 }}
+              transition={{ duration: 0.2 }}
+            >
+              <highlight.icon className="w-8 h-8 text-blue-600 mb-3 mx-auto" />
+              <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{highlight.title}</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">{highlight.description}</p>
+            </motion.div>
+          ))}
+        </motion.div>
         
         <motion.div 
           className="flex flex-col sm:flex-row justify-center gap-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.2 }}
+          transition={{ duration: 0.6, delay: 1.4 }}
         >
           <motion.div 
             whileHover={{ scale: 1.05 }}
@@ -73,7 +113,7 @@ const HeroSection = () => {
           >
             <Link 
               to="/about" 
-              className="inline-flex items-center px-6 py-3 text-lg font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
+              className="inline-flex items-center px-8 py-3 text-lg font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg"
             >
               Learn More About Me
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -85,7 +125,7 @@ const HeroSection = () => {
           >
             <Link 
               to="/projects" 
-              className="inline-flex items-center px-6 py-3 text-lg font-medium rounded-md text-blue-600 bg-white border border-blue-200 hover:bg-blue-50 transition-all duration-300"
+              className="inline-flex items-center px-8 py-3 text-lg font-medium rounded-md text-blue-600 bg-white border-2 border-blue-200 hover:bg-blue-50 transition-all duration-300 shadow-lg dark:bg-gray-800 dark:text-blue-400 dark:border-blue-400 dark:hover:bg-gray-700"
             >
               View Projects
               <ArrowRight className="ml-2 h-5 w-5" />

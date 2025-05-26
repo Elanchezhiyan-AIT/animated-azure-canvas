@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
@@ -48,6 +47,48 @@ const About = () => {
       description: "Built and maintained web applications, collaborated with design and product teams, and participated in code reviews. Focused on learning and implementing modern development practices.",
       technologies: ["C#", "ASP.NET MVC", "jQuery", "SQL Server"],
       icon: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=50&h=50&fit=crop"
+    }
+  ];
+
+  const personalStats = [
+    {
+      title: "Years of Experience",
+      value: "6+",
+      description: "Building enterprise solutions"
+    },
+    {
+      title: "Projects Completed",
+      value: "50+",
+      description: "From startups to enterprise"
+    },
+    {
+      title: "Technologies Mastered",
+      value: "15+",
+      description: "Across full stack development"
+    },
+    {
+      title: "Certifications",
+      value: "4",
+      description: "Azure and React certified"
+    }
+  ];
+
+  const coreValues = [
+    {
+      title: "Innovation",
+      description: "Constantly exploring new technologies and approaches to solve complex problems efficiently."
+    },
+    {
+      title: "Quality",
+      description: "Writing clean, maintainable code with comprehensive testing and documentation."
+    },
+    {
+      title: "Collaboration",
+      description: "Working closely with teams to deliver solutions that exceed expectations."
+    },
+    {
+      title: "Growth",
+      description: "Committed to continuous learning and staying current with industry trends."
     }
   ];
 
@@ -107,7 +148,7 @@ const About = () => {
                 I have a strong passion for continuous learning and technology adoption. I actively familiarize 
                 myself with emerging technologies and frameworks, incorporating them into new projects to deliver 
                 innovative and efficient solutions. My approach combines proven methodologies with cutting-edge 
-                tools to create robust, scalable applications.
+                tools to create robust, scalable applications that drive business success.
               </p>
               <div className="flex gap-4">
                 <motion.button 
@@ -127,6 +168,68 @@ const About = () => {
               </div>
             </motion.div>
           </div>
+        </section>
+
+        {/* Statistics Section */}
+        <section className="max-w-6xl mx-auto mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
+          >
+            {personalStats.map((stat, index) => (
+              <motion.div
+                key={index}
+                className="bg-white dark:bg-gray-800 rounded-xl p-6 text-center shadow-lg"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ scale: 1.05 }}
+              >
+                <div className="text-3xl font-bold text-blue-600 mb-2">{stat.value}</div>
+                <div className="font-medium text-gray-900 dark:text-white mb-1">{stat.title}</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">{stat.description}</div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </section>
+
+        {/* Core Values Section */}
+        <section className="max-w-6xl mx-auto mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-8"
+          >
+            <h2 className="text-3xl font-bold mb-4">Core Values</h2>
+            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              The principles that guide my approach to development and collaboration
+            </p>
+          </motion.div>
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            {coreValues.map((value, index) => (
+              <motion.div
+                key={index}
+                variants={itemVariants}
+                className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow"
+                whileHover={{ y: -5 }}
+              >
+                <h3 className="font-bold text-lg mb-3 text-blue-600">{value.title}</h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">{value.description}</p>
+              </motion.div>
+            ))}
+          </motion.div>
         </section>
         
         {/* Tabs */}
