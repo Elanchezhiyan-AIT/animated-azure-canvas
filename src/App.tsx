@@ -11,6 +11,8 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Projects from "./pages/Projects";
 import Blog from "./pages/Blog";
+import AddTestimonial from "./pages/AddTestimonial";
+import AddProject from "./pages/AddProject";
 import FloatingSocials from "./components/FloatingSocials";
 import { useState } from "react";
 
@@ -31,6 +33,8 @@ const App = () => {
               <Route path="/contact" element={<Contact />} />
               <Route path="/projects" element={<Projects />} />
               <Route path="/blog" element={<Blog />} />
+              <Route path="/admin/testimonials" element={<AddTestimonial />} />
+              <Route path="/admin/projects" element={<AddProject />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </AnimatePresence>

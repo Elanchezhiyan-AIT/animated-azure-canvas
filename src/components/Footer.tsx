@@ -31,7 +31,7 @@ const Footer = () => {
           {/* Brand Column */}
           <div>
             <h3 className="font-bold text-xl mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
-              Dev.Portfolio
+              Elanchezhiyan P
             </h3>
             <p className="text-gray-600 dark:text-gray-400 mb-4 max-w-xs">
               A passionate .NET Full Stack Developer with over 6 years of experience, 
@@ -60,7 +60,7 @@ const Footer = () => {
         {/* Social Links and Copyright */}
         <div className="flex flex-col md:flex-row justify-between items-center mt-10 pt-6 border-t border-gray-200 dark:border-gray-700">
           <p className="text-gray-600 dark:text-gray-400 mb-4 md:mb-0">
-            © {new Date().getFullYear()} Dev.Portfolio. All rights reserved.
+            © {new Date().getFullYear()} Elanchezhiyan P. All rights reserved.
           </p>
           
           {/* Social links shown only on desktop */}

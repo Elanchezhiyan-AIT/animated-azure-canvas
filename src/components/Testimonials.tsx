@@ -1,45 +1,43 @@
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Quote } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-
-interface Testimonial {
-  id: number;
-  text: string;
-  author: string;
-  position: string;
-  company: string;
-  avatar?: string;
-}
-
-const testimonials: Testimonial[] = [
-  {
-    id: 1,
-    text: "Working with this developer was a fantastic experience. Their deep knowledge of Azure and .NET helped us create a robust enterprise solution that exceeded our expectations.",
-    author: "Alex Johnson",
-    position: "CTO",
-    company: "TechSolutions Inc.",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
-  },
-  {
-    id: 2,
-    text: "I've collaborated with many developers, but few have shown such attention to detail and code quality. Their work on our financial platform was exceptional, delivering both performance and reliability.",
-    author: "Emma Williams",
-    position: "Lead Engineer",
-    company: "FinPlus Systems",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330"
-  },
-  {
-    id: 3,
-    text: "Their expertise in React and .NET integration saved our project from significant delays. Not only did they build a beautiful frontend, but they ensured seamless data flow with our backend services.",
-    author: "Michael Chen",
-    position: "Product Manager",
-    company: "DataViz Corp",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e"
-  }
-];
+import { fetchTestimonials, Testimonial } from "../data/testimonials";
 
 const Testimonials = () => {
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadTestimonials = async () => {
+      setLoading(true);
+      try {
+        const data = await fetchTestimonials();
+        setTestimonials(data);
+      } catch (error) {
+        console.error("Error loading testimonials:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadTestimonials();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="text-center p-10">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+            <p className="text-gray-600 dark:text-gray-400 mt-4">Loading testimonials...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-16">
       <div className="container mx-auto px-4">

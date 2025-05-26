@@ -46,7 +46,7 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
         <Link to="/" className="font-bold text-xl bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
-          Dev.Portfolio
+          Elanchezhiyan P
         </Link>
 
         {isMobile ? (
