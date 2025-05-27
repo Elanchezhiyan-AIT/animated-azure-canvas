@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -91,7 +90,7 @@ const Navbar = () => {
                   ))}
                   {isAuthenticated && (
                     <button
-                      onClick={() => handleNavClick("/admin/projects")}
+                      onClick={() => handleNavClick("/admin/dashboard")}
                       className="text-lg font-medium px-4 py-2 rounded-md transition-colors text-left hover:bg-gray-100 dark:hover:bg-gray-800"
                     >
                       Admin Panel
@@ -130,7 +129,7 @@ const Navbar = () => {
               ))}
               {isAuthenticated && (
                 <button
-                  onClick={() => handleNavClick("/admin/projects")}
+                  onClick={() => handleNavClick("/admin/dashboard")}
                   className="relative px-4 py-2 rounded-md font-medium transition-colors text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
                 >
                   Admin

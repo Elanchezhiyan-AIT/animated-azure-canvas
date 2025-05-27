@@ -15,17 +15,15 @@ export interface ProjectsData {
   categories: string[];
 }
 
+import { getAllProjects } from '../utils/dataManager';
+
 export const fetchProjects = async (): Promise<ProjectsData> => {
   try {
-    const response = await fetch('/src/data/projects.json');
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const data: ProjectsData = await response.json();
+    const data = getAllProjects();
     return data;
   } catch (error) {
     console.error("Error fetching projects:", error);
-    // Return fallback data if JSON fetch fails
+    // Return fallback data if fetch fails
     return {
       projects: [],
       categories: ["All Projects"]

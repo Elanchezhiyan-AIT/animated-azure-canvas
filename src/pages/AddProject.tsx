@@ -12,6 +12,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { getProjectById, addProject, updateProject } from "../utils/dataManager";
 
 const categories = [
   "Open Source",
@@ -42,23 +43,55 @@ const AddProject = () => {
   // Load existing data if editing
   useEffect(() => {
     if (isEditing && editId) {
-      // In a real app, fetch the project data by ID
-      // For now, we'll simulate loading data
-      console.log("Loading project for editing:", editId);
+      const projectId = parseInt(editId);
+      const existingProject = getProjectById(projectId);
+      
+      if (existingProject) {
+        setFormData({
+          title: existingProject.title,
+          description: existingProject.description,
+          image: existingProject.image,
+          category: existingProject.category,
+          technologies: existingProject.technologies,
+          link: existingProject.link,
+          featured: existingProject.featured || false
+        });
+        console.log("Loaded project for editing:", existingProject);
+      } else {
+        toast({
+          title: "Error",
+          description: "Project not found.",
+          variant: "destructive",
+        });
+        navigate("/admin/projects");
+      }
     }
-  }, [isEditing, editId]);
+  }, [isEditing, editId, navigate, toast]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-      console.log(isEditing ? "Updating project:" : "Adding project:", formData);
-      
-      toast({
-        title: "Success!",
-        description: `Project ${isEditing ? "updated" : "added"} successfully.`,
-      });
+      if (isEditing && editId) {
+        const projectId = parseInt(editId);
+        const updatedProject = updateProject(projectId, formData);
+        
+        if (updatedProject) {
+          toast({
+            title: "Success!",
+            description: "Project updated successfully.",
+          });
+        } else {
+          throw new Error("Failed to update project");
+        }
+      } else {
+        const newProject = addProject(formData);
+        toast({
+          title: "Success!",
+          description: "Project added successfully.",
+        });
+      }
       
       navigate("/admin/projects");
     } catch (error) {

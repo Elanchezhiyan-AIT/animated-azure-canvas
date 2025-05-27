@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Plus, Edit, Trash2, GripVertical } from "lucide-react";
@@ -6,7 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { fetchProjects, Project } from "../data/projects";
+import { Project } from "../data/projects";
+import { getAllProjects, deleteProject } from "../utils/dataManager";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useToast } from "@/hooks/use-toast";
@@ -21,7 +21,7 @@ const AdminProjects = () => {
     const loadProjects = async () => {
       setLoading(true);
       try {
-        const data = await fetchProjects();
+        const data = getAllProjects();
         setProjects(data.projects);
       } catch (error) {
         console.error("Error loading projects:", error);
@@ -39,11 +39,20 @@ const AdminProjects = () => {
 
   const handleDelete = async (id: number) => {
     if (window.confirm("Are you sure you want to delete this project?")) {
-      setProjects(prev => prev.filter(project => project.id !== id));
-      toast({
-        title: "Success",
-        description: "Project deleted successfully.",
-      });
+      const success = deleteProject(id);
+      if (success) {
+        setProjects(prev => prev.filter(project => project.id !== id));
+        toast({
+          title: "Success",
+          description: "Project deleted successfully.",
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to delete project.",
+          variant: "destructive",
+        });
+      }
     }
   };
 
