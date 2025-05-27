@@ -26,7 +26,7 @@ const Login = () => {
     
     if (success) {
       toast.success("Login successful!");
-      navigate("/admin/projects");
+      navigate("/admin/dashboard");
     } else {
       toast.error("Invalid credentials. Use username: admin, password: admin123");
     }
@@ -84,7 +84,14 @@ const Login = () => {
                 className="w-full bg-gradient-to-r from-blue-600 to-purple-600"
                 disabled={isLoading}
               >
-                {isLoading ? "Logging in..." : "Login"}
+                {isLoading ? (
+                  <div className="flex items-center">
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    Logging in...
+                  </div>
+                ) : (
+                  "Login"
+                )}
               </Button>
             </form>
             <div className="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">

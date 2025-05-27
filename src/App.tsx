@@ -17,6 +17,10 @@ import Certifications from "./pages/Certifications";
 import Login from "./pages/Login";
 import AddTestimonial from "./pages/AddTestimonial";
 import AddProject from "./pages/AddProject";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminProjects from "./pages/AdminProjects";
+import AdminTestimonials from "./pages/AdminTestimonials";
+import AdminCertifications from "./pages/AdminCertifications";
 import FloatingSocials from "./components/FloatingSocials";
 import { useState } from "react";
 
@@ -40,14 +44,34 @@ const App = () => {
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/certifications" element={<Certifications />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/admin/testimonials" element={
+                <Route path="/admin/dashboard" element={
                   <ProtectedRoute>
-                    <AddTestimonial />
+                    <AdminDashboard />
                   </ProtectedRoute>
                 } />
                 <Route path="/admin/projects" element={
                   <ProtectedRoute>
+                    <AdminProjects />
+                  </ProtectedRoute>
+                } />
+                <Route path="/admin/projects/add" element={
+                  <ProtectedRoute>
                     <AddProject />
+                  </ProtectedRoute>
+                } />
+                <Route path="/admin/testimonials" element={
+                  <ProtectedRoute>
+                    <AdminTestimonials />
+                  </ProtectedRoute>
+                } />
+                <Route path="/admin/testimonials/add" element={
+                  <ProtectedRoute>
+                    <AddTestimonial />
+                  </ProtectedRoute>
+                } />
+                <Route path="/admin/certifications" element={
+                  <ProtectedRoute>
+                    <AdminCertifications />
                   </ProtectedRoute>
                 } />
                 <Route path="*" element={<NotFound />} />
