@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Save, Plus, X } from "lucide-react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
@@ -8,20 +8,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
-const categories = [
-  "Open Source",
-  "NuGet Packages", 
-  "Client Work",
-  "Personal Projects"
-];
-
-const AddProject = () => {
+const AddCertification = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -30,22 +21,18 @@ const AddProject = () => {
 
   const [formData, setFormData] = useState({
     title: "",
-    description: "",
+    issuer: "",
+    date: "",
+    credentialId: "",
     image: "",
-    category: "",
-    technologies: [] as string[],
-    link: "",
-    featured: false
+    skills: [] as string[]
   });
-  const [newTech, setNewTech] = useState("");
+  const [newSkill, setNewSkill] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Load existing data if editing
-  React.useEffect(() => {
+  useEffect(() => {
     if (isEditing && editId) {
-      // In a real app, fetch the project data by ID
-      // For now, we'll simulate loading data
-      console.log("Loading project for editing:", editId);
+      console.log("Loading certification for editing:", editId);
     }
   }, [isEditing, editId]);
 
@@ -54,18 +41,18 @@ const AddProject = () => {
     setIsSubmitting(true);
 
     try {
-      console.log(isEditing ? "Updating project:" : "Adding project:", formData);
+      console.log(isEditing ? "Updating certification:" : "Adding certification:", formData);
       
       toast({
         title: "Success!",
-        description: `Project ${isEditing ? "updated" : "added"} successfully.`,
+        description: `Certification ${isEditing ? "updated" : "added"} successfully.`,
       });
       
-      navigate("/admin/projects");
+      navigate("/admin/certifications");
     } catch (error) {
       toast({
         title: "Error",
-        description: `Failed to ${isEditing ? "update" : "add"} project. Please try again.`,
+        description: `Failed to ${isEditing ? "update" : "add"} certification. Please try again.`,
         variant: "destructive",
       });
     } finally {
@@ -80,20 +67,20 @@ const AddProject = () => {
     }));
   };
 
-  const addTechnology = () => {
-    if (newTech.trim() && !formData.technologies.includes(newTech.trim())) {
+  const addSkill = () => {
+    if (newSkill.trim() && !formData.skills.includes(newSkill.trim())) {
       setFormData(prev => ({
         ...prev,
-        technologies: [...prev.technologies, newTech.trim()]
+        skills: [...prev.skills, newSkill.trim()]
       }));
-      setNewTech("");
+      setNewSkill("");
     }
   };
 
-  const removeTechnology = (tech: string) => {
+  const removeSkill = (skill: string) => {
     setFormData(prev => ({
       ...prev,
-      technologies: prev.technologies.filter(t => t !== tech)
+      skills: prev.skills.filter(s => s !== skill)
     }));
   };
 
@@ -110,45 +97,69 @@ const AddProject = () => {
         >
           <div className="mb-6">
             <Link 
-              to="/admin/projects" 
+              to="/admin/certifications" 
               className="inline-flex items-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Projects
+              Back to Certifications
             </Link>
           </div>
 
           <Card>
             <CardHeader>
               <CardTitle className="text-2xl font-bold">
-                {isEditing ? "Edit Project" : "Add New Project"}
+                {isEditing ? "Edit Certification" : "Add New Certification"}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <Label htmlFor="title">Project Title</Label>
+                  <Label htmlFor="title">Certification Title</Label>
                   <Input
                     id="title"
                     name="title"
                     value={formData.title}
                     onChange={handleChange}
-                    placeholder="Enter project title"
+                    placeholder="Enter certification title"
                     required
                     className="mt-1"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="description">Description</Label>
-                  <Textarea
-                    id="description"
-                    name="description"
-                    value={formData.description}
+                  <Label htmlFor="issuer">Issuer</Label>
+                  <Input
+                    id="issuer"
+                    name="issuer"
+                    value={formData.issuer}
                     onChange={handleChange}
-                    placeholder="Enter project description..."
+                    placeholder="Enter issuing organization"
                     required
-                    rows={4}
+                    className="mt-1"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="date">Issue Date</Label>
+                  <Input
+                    id="date"
+                    name="date"
+                    type="date"
+                    value={formData.date}
+                    onChange={handleChange}
+                    required
+                    className="mt-1"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="credentialId">Credential ID (Optional)</Label>
+                  <Input
+                    id="credentialId"
+                    name="credentialId"
+                    value={formData.credentialId}
+                    onChange={handleChange}
+                    placeholder="Enter credential ID"
                     className="mt-1"
                   />
                 </div>
@@ -167,46 +178,28 @@ const AddProject = () => {
                 </div>
 
                 <div>
-                  <Label htmlFor="category">Category</Label>
-                  <Select value={formData.category} onValueChange={(value) => 
-                    setFormData(prev => ({ ...prev, category: value }))
-                  }>
-                    <SelectTrigger className="mt-1">
-                      <SelectValue placeholder="Select a category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {categories.map((category) => (
-                        <SelectItem key={category} value={category}>
-                          {category}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Label>Technologies</Label>
+                  <Label>Skills</Label>
                   <div className="flex gap-2 mt-1">
                     <Input
-                      value={newTech}
-                      onChange={(e) => setNewTech(e.target.value)}
-                      placeholder="Add technology"
-                      onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTechnology())}
+                      value={newSkill}
+                      onChange={(e) => setNewSkill(e.target.value)}
+                      placeholder="Add skill"
+                      onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addSkill())}
                     />
-                    <Button type="button" onClick={addTechnology} size="sm">
+                    <Button type="button" onClick={addSkill} size="sm">
                       <Plus className="h-4 w-4" />
                     </Button>
                   </div>
                   <div className="flex flex-wrap gap-2 mt-2">
-                    {formData.technologies.map((tech) => (
+                    {formData.skills.map((skill) => (
                       <span
-                        key={tech}
+                        key={skill}
                         className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-md text-sm"
                       >
-                        {tech}
+                        {skill}
                         <button
                           type="button"
-                          onClick={() => removeTechnology(tech)}
+                          onClick={() => removeSkill(skill)}
                           className="hover:text-red-500"
                         >
                           <X className="h-3 w-3" />
@@ -214,30 +207,6 @@ const AddProject = () => {
                       </span>
                     ))}
                   </div>
-                </div>
-
-                <div>
-                  <Label htmlFor="link">Project Link</Label>
-                  <Input
-                    id="link"
-                    name="link"
-                    value={formData.link}
-                    onChange={handleChange}
-                    placeholder="Enter project URL"
-                    required
-                    className="mt-1"
-                  />
-                </div>
-
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="featured"
-                    checked={formData.featured}
-                    onCheckedChange={(checked) => 
-                      setFormData(prev => ({ ...prev, featured: !!checked }))
-                    }
-                  />
-                  <Label htmlFor="featured">Featured Project</Label>
                 </div>
 
                 <Button 
@@ -250,7 +219,7 @@ const AddProject = () => {
                   ) : (
                     <>
                       <Save className="mr-2 h-4 w-4" />
-                      {isEditing ? "Update Project" : "Add Project"}
+                      {isEditing ? "Update Certification" : "Add Certification"}
                     </>
                   )}
                 </Button>
@@ -265,4 +234,4 @@ const AddProject = () => {
   );
 };
 
-export default AddProject;
+export default AddCertification;

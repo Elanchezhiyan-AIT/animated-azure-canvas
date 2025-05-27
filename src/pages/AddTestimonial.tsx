@@ -1,8 +1,8 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Save } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,6 +15,11 @@ import Footer from "../components/Footer";
 
 const AddTestimonial = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const editId = searchParams.get("edit");
+  const isEditing = !!editId;
+  
   const [formData, setFormData] = useState({
     text: "",
     author: "",
@@ -23,6 +28,14 @@ const AddTestimonial = () => {
     avatar: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Load existing data if editing
+  useEffect(() => {
+    if (isEditing && editId) {
+      console.log("Loading testimonial for editing:", editId);
+      // In a real app, fetch the testimonial data by ID
+    }
+  }, [isEditing, editId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,22 +46,16 @@ const AddTestimonial = () => {
       if (success) {
         toast({
           title: "Success!",
-          description: "Testimonial added successfully.",
+          description: `Testimonial ${isEditing ? "updated" : "added"} successfully.`,
         });
-        setFormData({
-          text: "",
-          author: "",
-          position: "",
-          company: "",
-          avatar: ""
-        });
+        navigate("/admin/testimonials");
       } else {
-        throw new Error("Failed to add testimonial");
+        throw new Error("Failed to save testimonial");
       }
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to add testimonial. Please try again.",
+        description: `Failed to ${isEditing ? "update" : "add"} testimonial. Please try again.`,
         variant: "destructive",
       });
     } finally {
@@ -76,17 +83,19 @@ const AddTestimonial = () => {
         >
           <div className="mb-6">
             <Link 
-              to="/" 
+              to="/admin/testimonials" 
               className="inline-flex items-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Home
+              Back to Testimonials
             </Link>
           </div>
 
           <Card>
             <CardHeader>
-              <CardTitle className="text-2xl font-bold">Add New Testimonial</CardTitle>
+              <CardTitle className="text-2xl font-bold">
+                {isEditing ? "Edit Testimonial" : "Add New Testimonial"}
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -161,11 +170,11 @@ const AddTestimonial = () => {
                   className="w-full"
                 >
                   {isSubmitting ? (
-                    "Adding..."
+                    `${isEditing ? "Updating" : "Adding"}...`
                   ) : (
                     <>
                       <Save className="mr-2 h-4 w-4" />
-                      Add Testimonial
+                      {isEditing ? "Update Testimonial" : "Add Testimonial"}
                     </>
                   )}
                 </Button>

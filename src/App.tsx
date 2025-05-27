@@ -17,6 +17,7 @@ import Certifications from "./pages/Certifications";
 import Login from "./pages/Login";
 import AddTestimonial from "./pages/AddTestimonial";
 import AddProject from "./pages/AddProject";
+import AddCertification from "./pages/AddCertification";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminProjects from "./pages/AdminProjects";
 import AdminTestimonials from "./pages/AdminTestimonials";
@@ -72,6 +73,11 @@ const App = () => {
                 <Route path="/admin/certifications" element={
                   <ProtectedRoute>
                     <AdminCertifications />
+                  </ProtectedRoute>
+                } />
+                <Route path="/admin/certifications/add" element={
+                  <ProtectedRoute>
+                    <AddCertification />
                   </ProtectedRoute>
                 } />
                 <Route path="*" element={<NotFound />} />

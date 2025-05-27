@@ -1,7 +1,7 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -12,21 +12,35 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuth();
+  const { login, isAuthenticated, redirectPath, setRedirectPath } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const targetPath = redirectPath || "/admin/dashboard";
+      setRedirectPath(null);
+      navigate(targetPath);
+    }
+  }, [isAuthenticated, navigate, redirectPath, setRedirectPath]);
+
+  useEffect(() => {
+    const from = location.state?.from?.pathname;
+    if (from && from !== "/login") {
+      setRedirectPath(from);
+    }
+  }, [location.state, setRedirectPath]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate loading delay
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     const success = login(username, password);
     
     if (success) {
       toast.success("Login successful!");
-      navigate("/admin/dashboard");
     } else {
       toast.error("Invalid credentials. Use username: admin, password: admin123");
     }

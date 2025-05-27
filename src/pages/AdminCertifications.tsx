@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Plus, Edit, Trash2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -22,6 +22,7 @@ interface Certification {
 
 const AdminCertifications = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [certifications, setCertifications] = useState<Certification[]>([
     {
       id: 1,
@@ -43,6 +44,10 @@ const AdminCertifications = () => {
     }
   ]);
   const [loading, setLoading] = useState(false);
+
+  const handleEdit = (id: number) => {
+    navigate(`/admin/certifications/add?edit=${id}`);
+  };
 
   const handleDelete = async (id: number) => {
     if (window.confirm("Are you sure you want to delete this certification?")) {
@@ -99,7 +104,12 @@ const AdminCertifications = () => {
               >
                 <Card className="h-full relative overflow-hidden hover:shadow-xl transition-all duration-300 hover:border-l-4 hover:border-b-4 hover:border-blue-500">
                   <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex gap-2 z-10">
-                    <Button size="sm" variant="outline" className="bg-white/90">
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="bg-white/90"
+                      onClick={() => handleEdit(certification.id)}
+                    >
                       <Edit className="h-3 w-3" />
                     </Button>
                     <Button 

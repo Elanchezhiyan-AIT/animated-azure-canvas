@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Plus, Edit, Trash2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { fetchTestimonials, Testimonial } from "../data/testimonials";
@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 
 const AdminTestimonials = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -30,6 +31,10 @@ const AdminTestimonials = () => {
 
     loadTestimonials();
   }, []);
+
+  const handleEdit = (id: number) => {
+    navigate(`/admin/testimonials/add?edit=${id}`);
+  };
 
   const handleDelete = async (id: number) => {
     if (window.confirm("Are you sure you want to delete this testimonial?")) {
@@ -94,7 +99,12 @@ const AdminTestimonials = () => {
               >
                 <Card className="h-full relative hover:shadow-xl transition-all duration-300 hover:border-l-4 hover:border-b-4 hover:border-blue-500">
                   <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex gap-2 z-10">
-                    <Button size="sm" variant="outline" className="bg-white/90">
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="bg-white/90"
+                      onClick={() => handleEdit(testimonial.id)}
+                    >
                       <Edit className="h-3 w-3" />
                     </Button>
                     <Button 
