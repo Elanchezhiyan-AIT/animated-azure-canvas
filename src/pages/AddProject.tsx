@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Save, Plus, X } from "lucide-react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
@@ -41,7 +40,7 @@ const AddProject = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Load existing data if editing
-  React.useEffect(() => {
+  useEffect(() => {
     if (isEditing && editId) {
       // In a real app, fetch the project data by ID
       // For now, we'll simulate loading data
