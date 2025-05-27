@@ -84,7 +84,11 @@ export const getAllProjects = () => {
 
 export const addProject = (project: Omit<Project, 'id'>): Project => {
   const newId = Math.max(...projectsData.projects.map(p => p.id)) + 1;
-  const newProject = { ...project, id: newId };
+  const newProject = { 
+    ...project, 
+    id: newId,
+    featured: project.featured ?? false
+  };
   projectsData.projects.push(newProject);
   console.log('Project added:', newProject);
   return newProject;
@@ -93,7 +97,11 @@ export const addProject = (project: Omit<Project, 'id'>): Project => {
 export const updateProject = (id: number, updatedProject: Omit<Project, 'id'>): Project | undefined => {
   const index = projectsData.projects.findIndex(project => project.id === id);
   if (index !== -1) {
-    projectsData.projects[index] = { ...updatedProject, id };
+    projectsData.projects[index] = { 
+      ...updatedProject, 
+      id,
+      featured: updatedProject.featured ?? false
+    };
     console.log('Project updated:', projectsData.projects[index]);
     return projectsData.projects[index];
   }
