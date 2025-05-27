@@ -7,6 +7,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ChatbotWidget from "../components/ChatbotWidget";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -59,7 +60,139 @@ const Contact = () => {
         
         {/* Contact Section */}
         <section className="max-w-6xl mx-auto mb-16">
-          <div className="grid md:grid-cols-2 gap-10">
+          {/* Mobile view with tabs */}
+          <div className="md:hidden">
+            <Tabs defaultValue="contact" className="w-full">
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="contact">Contact</TabsTrigger>
+                <TabsTrigger value="links">Quick Links</TabsTrigger>
+                <TabsTrigger value="info">Get In Touch</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="contact" className="mt-6">
+                <motion.div 
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6"
+                >
+                  <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Send a Message</h2>
+                  
+                  <form onSubmit={handleSubmit} className="space-y-5">
+                    <div>
+                      <label htmlFor="name" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                        Your Name
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        required
+                        className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="email" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                        Your Email
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="message" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                        Your Message
+                      </label>
+                      <textarea
+                        id="message"
+                        name="message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        rows={5}
+                        required
+                        className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                    
+                    <div>
+                      <Button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="w-full flex items-center justify-center"
+                      >
+                        {isSubmitting ? 'Sending...' : 'Send Message'}
+                        <Send className="ml-2 h-4 w-4" />
+                      </Button>
+                    </div>
+                  </form>
+                </motion.div>
+              </TabsContent>
+              
+              <TabsContent value="links" className="mt-6">
+                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                  <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Quick Links</h2>
+                  <div className="space-y-4">
+                    <a href="/" className="block text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors">Home</a>
+                    <a href="/about" className="block text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors">About</a>
+                    <a href="/projects" className="block text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors">Projects</a>
+                    <a href="/certifications" className="block text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors">Certifications</a>
+                    <a href="/blog" className="block text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors">Blog</a>
+                  </div>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="info" className="mt-6">
+                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                  <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Contact Information</h2>
+                  
+                  <div className="space-y-4">
+                    <div className="flex items-start">
+                      <div className="flex-shrink-0 bg-blue-100 dark:bg-blue-900/30 p-3 rounded-full">
+                        <MapPin className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                      </div>
+                      <div className="ml-4">
+                        <h3 className="text-lg font-medium text-gray-900 dark:text-white">Location</h3>
+                        <p className="text-gray-600 dark:text-gray-400">New York, NY, United States</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start">
+                      <div className="flex-shrink-0 bg-blue-100 dark:bg-blue-900/30 p-3 rounded-full">
+                        <Mail className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                      </div>
+                      <div className="ml-4">
+                        <h3 className="text-lg font-medium text-gray-900 dark:text-white">Email</h3>
+                        <p className="text-gray-600 dark:text-gray-400">info@example.com</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start">
+                      <div className="flex-shrink-0 bg-blue-100 dark:bg-blue-900/30 p-3 rounded-full">
+                        <Phone className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                      </div>
+                      <div className="ml-4">
+                        <h3 className="text-lg font-medium text-gray-900 dark:text-white">Phone</h3>
+                        <p className="text-gray-600 dark:text-gray-400">+1 (555) 123-4567</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </TabsContent>
+            </Tabs>
+          </div>
+
+          {/* Desktop view */}
+          <div className="hidden md:grid md:grid-cols-2 gap-10">
             {/* Contact Form */}
             <motion.div 
               initial={{ opacity: 0, x: -30 }}
@@ -71,12 +204,12 @@ const Contact = () => {
               
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                  <label htmlFor="name-desktop" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
                     Your Name
                   </label>
                   <input
                     type="text"
-                    id="name"
+                    id="name-desktop"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
@@ -86,12 +219,12 @@ const Contact = () => {
                 </div>
                 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                  <label htmlFor="email-desktop" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
                     Your Email
                   </label>
                   <input
                     type="email"
-                    id="email"
+                    id="email-desktop"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
@@ -101,11 +234,11 @@ const Contact = () => {
                 </div>
                 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                  <label htmlFor="message-desktop" className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
                     Your Message
                   </label>
                   <textarea
-                    id="message"
+                    id="message-desktop"
                     name="message"
                     value={formData.message}
                     onChange={handleChange}

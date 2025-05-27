@@ -6,44 +6,32 @@ import { Link, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { getAllCertifications, deleteCertification, Certification } from "../utils/certificationsManager";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useToast } from "@/hooks/use-toast";
 
-interface Certification {
-  id: number;
-  title: string;
-  issuer: string;
-  date: string;
-  credentialId?: string;
-  image: string;
-  skills: string[];
-}
-
 const AdminCertifications = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
-  const [certifications, setCertifications] = useState<Certification[]>([
-    {
-      id: 1,
-      title: "Microsoft Azure Fundamentals",
-      issuer: "Microsoft",
-      date: "2023-06-15",
-      credentialId: "AZ-900-2023-001",
-      image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee",
-      skills: ["Azure", "Cloud Computing", "Infrastructure"]
-    },
-    {
-      id: 2,
-      title: "AWS Certified Solutions Architect",
-      issuer: "Amazon Web Services",
-      date: "2023-03-20",
-      credentialId: "SAA-C02-2023-002",
-      image: "https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2",
-      skills: ["AWS", "Solutions Architecture", "Cloud Design"]
-    }
-  ]);
-  const [loading, setLoading] = useState(false);
+  const [certifications, setCertifications] = useState<Certification[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadCertifications = async () => {
+      setLoading(true);
+      try {
+        const data = getAllCertifications();
+        setCertifications(data);
+      } catch (error) {
+        console.error("Error loading certifications:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadCertifications();
+  }, []);
 
   const handleEdit = (id: number) => {
     navigate(`/admin/certifications/add?edit=${id}`);
@@ -51,11 +39,20 @@ const AdminCertifications = () => {
 
   const handleDelete = async (id: number) => {
     if (window.confirm("Are you sure you want to delete this certification?")) {
-      setCertifications(prev => prev.filter(cert => cert.id !== id));
-      toast({
-        title: "Success",
-        description: "Certification deleted successfully.",
-      });
+      const success = deleteCertification(id);
+      if (success) {
+        setCertifications(prev => prev.filter(cert => cert.id !== id));
+        toast({
+          title: "Success",
+          description: "Certification deleted successfully.",
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to delete certification.",
+          variant: "destructive",
+        });
+      }
     }
   };
 

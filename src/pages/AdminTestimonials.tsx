@@ -5,7 +5,8 @@ import { ArrowLeft, Plus, Edit, Trash2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { fetchTestimonials, Testimonial } from "../data/testimonials";
+import { Testimonial } from "../data/testimonials";
+import { getAllTestimonials, deleteTestimonial } from "../utils/testimonialsManager";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useToast } from "@/hooks/use-toast";
@@ -20,7 +21,7 @@ const AdminTestimonials = () => {
     const loadTestimonials = async () => {
       setLoading(true);
       try {
-        const data = await fetchTestimonials();
+        const data = getAllTestimonials();
         setTestimonials(data);
       } catch (error) {
         console.error("Error loading testimonials:", error);
@@ -38,11 +39,20 @@ const AdminTestimonials = () => {
 
   const handleDelete = async (id: number) => {
     if (window.confirm("Are you sure you want to delete this testimonial?")) {
-      setTestimonials(prev => prev.filter(testimonial => testimonial.id !== id));
-      toast({
-        title: "Success",
-        description: "Testimonial deleted successfully.",
-      });
+      const success = deleteTestimonial(id);
+      if (success) {
+        setTestimonials(prev => prev.filter(testimonial => testimonial.id !== id));
+        toast({
+          title: "Success",
+          description: "Testimonial deleted successfully.",
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to delete testimonial.",
+          variant: "destructive",
+        });
+      }
     }
   };
 

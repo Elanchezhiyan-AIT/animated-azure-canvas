@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Quote } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { fetchTestimonials, Testimonial } from "../data/testimonials";
+import { Testimonial } from "../data/testimonials";
+import { getAllTestimonials } from "../utils/testimonialsManager";
 
 const Testimonials = () => {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
@@ -13,7 +14,7 @@ const Testimonials = () => {
     const loadTestimonials = async () => {
       setLoading(true);
       try {
-        const data = await fetchTestimonials();
+        const data = getAllTestimonials();
         setTestimonials(data);
       } catch (error) {
         console.error("Error loading testimonials:", error);

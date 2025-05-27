@@ -6,8 +6,8 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { getCertificationById, addCertification, updateCertification } from "../utils/certificationsManager";
 import { useToast } from "@/hooks/use-toast";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -32,7 +32,17 @@ const AddCertification = () => {
 
   useEffect(() => {
     if (isEditing && editId) {
-      console.log("Loading certification for editing:", editId);
+      const certification = getCertificationById(parseInt(editId));
+      if (certification) {
+        setFormData({
+          title: certification.title,
+          issuer: certification.issuer,
+          date: certification.date,
+          credentialId: certification.credentialId || "",
+          image: certification.image,
+          skills: certification.skills
+        });
+      }
     }
   }, [isEditing, editId]);
 
@@ -41,7 +51,14 @@ const AddCertification = () => {
     setIsSubmitting(true);
 
     try {
-      console.log(isEditing ? "Updating certification:" : "Adding certification:", formData);
+      if (isEditing && editId) {
+        const success = updateCertification(parseInt(editId), formData);
+        if (!success) {
+          throw new Error("Failed to update certification");
+        }
+      } else {
+        addCertification(formData);
+      }
       
       toast({
         title: "Success!",

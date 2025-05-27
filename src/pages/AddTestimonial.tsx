@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { addTestimonial } from "../data/testimonials";
+import { getTestimonialById, addTestimonial, updateTestimonial } from "../utils/testimonialsManager";
 import { useToast } from "@/hooks/use-toast";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -32,8 +32,16 @@ const AddTestimonial = () => {
   // Load existing data if editing
   useEffect(() => {
     if (isEditing && editId) {
-      console.log("Loading testimonial for editing:", editId);
-      // In a real app, fetch the testimonial data by ID
+      const testimonial = getTestimonialById(parseInt(editId));
+      if (testimonial) {
+        setFormData({
+          text: testimonial.text,
+          author: testimonial.author,
+          position: testimonial.position,
+          company: testimonial.company,
+          avatar: testimonial.avatar || ""
+        });
+      }
     }
   }, [isEditing, editId]);
 
@@ -42,16 +50,20 @@ const AddTestimonial = () => {
     setIsSubmitting(true);
 
     try {
-      const success = await addTestimonial(formData);
-      if (success) {
-        toast({
-          title: "Success!",
-          description: `Testimonial ${isEditing ? "updated" : "added"} successfully.`,
-        });
-        navigate("/admin/testimonials");
+      if (isEditing && editId) {
+        const success = updateTestimonial(parseInt(editId), formData);
+        if (!success) {
+          throw new Error("Failed to update testimonial");
+        }
       } else {
-        throw new Error("Failed to save testimonial");
+        addTestimonial(formData);
       }
+      
+      toast({
+        title: "Success!",
+        description: `Testimonial ${isEditing ? "updated" : "added"} successfully.`,
+      });
+      navigate("/admin/testimonials");
     } catch (error) {
       toast({
         title: "Error",
